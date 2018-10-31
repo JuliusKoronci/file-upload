@@ -4,4 +4,7 @@ export const styles = {
     maxWidth: '1224px',
     minWidth: '768px',
   },
+  uploadForm: {
+    width: '100%',
+  }
 };

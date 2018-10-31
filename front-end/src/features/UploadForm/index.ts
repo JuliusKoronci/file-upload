@@ -1,0 +1,1 @@
+export { default as UploadForm, IUploadFormProps } from './UploadForm';

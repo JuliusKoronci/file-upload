@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * handle Document CRUD
  *
+ * @TODO break down code to more granular structure and skinny controller
+ *
  * @package App\Controller
  */
 class DocumentController extends Controller
@@ -37,8 +39,8 @@ class DocumentController extends Controller
      * Upload a file
      *
      * @Route("/upload", name="upload", methods={"POST"})
-     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
-     * @throws \LogicException
+     * @param Request $request
+     * @return Response
      * @throws \Exception
      */
     public function upload(Request $request): Response
@@ -55,7 +57,7 @@ class DocumentController extends Controller
         $document->setTempName($postedFile->getFilename());
         $document->setUploadDir($targetDir);
 
-        $postedFile->move($targetDir);
+        $postedFile->move($this->getSystemPath() . DIRECTORY_SEPARATOR . $targetDir);
 
         $this->getDoctrine()->getManager()->persist($document);
         $this->getDoctrine()->getManager()->flush();
@@ -78,19 +80,66 @@ class DocumentController extends Controller
     public function delete(string $slug): Response
     {
         $document = $this->getDoctrine()->getRepository(Document::class)->findOneBy(['slug' => $slug]);
-        if (!$document instanceof Document) {
-            return $this->json([], 409);
+        if (null === $document) {
+            return $this->json([
+                'error' => 'not in DB',
+            ], 404);
         }
 
         $fileSystem = new Filesystem();
         $fileSystem->remove([
-            $document->getUploadDir() . DIRECTORY_SEPARATOR . $document->getTempName()
+            $this->getSystemPath() . DIRECTORY_SEPARATOR . $document->getUploadDir() . DIRECTORY_SEPARATOR . $document->getTempName()
         ]);
-        $fileSystem->remove([$document->getUploadDir()]);
+        $fileSystem->remove([$this->getSystemPath() . DIRECTORY_SEPARATOR . $document->getUploadDir()]);
 
         $this->getDoctrine()->getManager()->remove($document);
         $this->getDoctrine()->getManager()->flush();
+
         return $this->json([], 204);
+    }
+
+    /**
+     * Download a document
+     *
+     * @Route("/download/{slug}", name="download", methods={"GET"})
+     * @param string $slug
+     * @return Response
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws \LogicException
+     */
+    public function download(string $slug): Response
+    {
+        $document = $this->getDoctrine()->getRepository(Document::class)->findOneBy(['slug' => $slug]);
+        if (null === $document) {
+            return $this->json([
+                'error' => 'not in DB'
+            ], 404);
+        }
+
+        $file = $this->getSystemPath() . DIRECTORY_SEPARATOR . $document->getUploadDir() . DIRECTORY_SEPARATOR . $document->getTempName();
+        if (!file_exists($file)) {
+            dump($file);
+            return $this->json([
+                'error' => 'not on disk'
+            ], 404);
+        }
+        // Generate response
+        $response = new Response();
+
+        $response->setPublic();
+        $response->setSharedMaxAge(3600);
+
+        // Set headers
+        $response->headers->set('Content-type', mime_content_type($file));//$fileEntity->getType());
+        $response->headers->set('Content-length', filesize($file));//$fileEntity->getSize());
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s', filemtime($file)) . ' GMT');
+        // Send headers before outputting anything
+        $response->sendHeaders();
+        $response->setContent(file_get_contents($file));
+
+        return $response;
     }
 
     /**
@@ -105,12 +154,22 @@ class DocumentController extends Controller
          * Random folder name to avoid accidental name collision
          */
         $dirName = $random = md5(random_bytes(100));
-        $targetDir = $this->get('kernel')->getProjectDir() . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $dirName;
+        $targetDir = $this->getSystemPath() . DIRECTORY_SEPARATOR . $dirName;
 
         // @TODO handle exceptions
         $fileSystem = new Filesystem();
         $fileSystem->mkdir($targetDir);
 
-        return $targetDir;
+        return $dirName;
+    }
+
+    /**
+     * Get path relative to OS and project location
+     *
+     * @return string
+     */
+    private function getSystemPath(): string
+    {
+        return $this->get('kernel')->getProjectDir() . DIRECTORY_SEPARATOR . 'uploads';
     }
 }

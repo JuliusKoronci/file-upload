@@ -1,5 +1,7 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://symfony.localhost/';
+export const BASE_URL = 'http://symfony.localhost/';
+
+axios.defaults.baseURL = BASE_URL;
 
 export default axios;

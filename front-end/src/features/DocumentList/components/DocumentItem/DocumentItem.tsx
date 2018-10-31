@@ -1,6 +1,7 @@
 import { SFC } from 'react';
 import * as React from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../../../../app/api';
 
 import {
   Avatar,
@@ -18,7 +19,7 @@ interface IDocumentItemProps {
 }
 
 export const DocumentItem: SFC<IDocumentItemProps> = ({ item }) => {
-  const downloadNewTab = () => window.open(item.link, '_blank');
+  const downloadNewTab = () => window.open(`${BASE_URL}download/${item.slug}`, '_blank');
   const handleDelete = () => axios.delete(`delete/${item.slug}`);
   return (
     <ListItem>

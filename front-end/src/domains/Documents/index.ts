@@ -1,5 +1,5 @@
 export { IDocument } from './types';
-export { documentsService } from './services';
+export { documentsService, uploadService } from './services';
 export {
   documentsReducer,
   documentsReducerName,

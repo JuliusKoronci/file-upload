@@ -2,36 +2,63 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Document;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DocumentController extends AbstractController
+class DocumentController extends Controller
 {
     /**
-     * @Route("/documents", name="documents")
+     * List all documents
+     *
+     * @Route("/documents", name="documents", methods={"GET"})
      */
     public function index()
     {
-        return new JsonResponse([
-            [
-                'link' => 'http://www.my-awesome-link.com',
-                'mime' => 'png',
-                'slug' => 'my-awesome-link1',
-                'title' => 'Cool pic 2',
-            ],
-            [
-                'link' => 'http://www.my-awesome-link.com',
-                'mime' => 'npg',
-                'slug' => 'my-awesome-link',
-                'title' => 'Cool pic 3',
-            ],
-            [
-                'link' => 'http://www.my-awesome-link.com',
-                'mime' => 'cgi',
-                'slug' => 'my-awesome-link3',
-                'title' => 'Cool pic 1',
-            ],
+        $documents = $this->getDoctrine()->getRepository(Document::class)->findAll();
+        return new Response($this->get('jms_serializer')->serialize($documents, 'json'));
+    }
+
+    /**
+     * Upload a file
+     *
+     * @Route("/upload", name="upload", methods={"POST"})
+     */
+    public function upload(Request $request)
+    {
+        /** @var UploadedFile $postedFile */
+        $postedFile = $request->files->get('file');
+        $targetDir = $this->getFilePath();
+
+        $document = new Document();
+        $document->setName($postedFile->getClientOriginalName());
+        $document->setSize($postedFile->getSize());
+        $document->setType($postedFile->getMimeType());
+        $document->setTempName($postedFile->getFilename());
+        $document->setUploadDir($targetDir);
+
+        $postedFile->move($targetDir);
+
+        $this->getDoctrine()->getManager()->persist($document);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->json([
+            'success' => true,
         ]);
+    }
+
+    private function getFilePath()
+    {
+        $dirName = $random = md5(random_bytes(100));
+        $targetDir = $this->get('kernel')->getProjectDir() . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $dirName;
+
+        $fileSystem = new Filesystem();
+        $fileSystem->mkdir($targetDir);
+
+        return $targetDir;
     }
 }

@@ -26,8 +26,8 @@ export const DocumentItem: SFC<IDocumentItemProps> = ({ item }) => {
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={item.title}
-        secondary={item.mime}
+        primary={item.name}
+        secondary={item.type}
       />
       <ListItemSecondaryAction>
         <IconButton aria-label="Download" onClick={downloadNewTab}>

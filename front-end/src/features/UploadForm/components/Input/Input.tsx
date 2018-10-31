@@ -4,6 +4,7 @@ import { SFC } from 'react';
 import * as React from 'react';
 import { withState } from 'recompose';
 import { styles } from '../../../../styles';
+import { uploadService } from '../../../../domains/Documents';
 
 export interface IInputProps {
   selectedFile: any;
@@ -19,7 +20,7 @@ export interface IInputProps {
  */
 const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload }) => {
   const handleChange = (event: any) => handleInputChange(event.target.files[0]);
-  const handleButtonClick = () => handleUpload(selectedFile);
+  const handleButtonClick = () => uploadService(selectedFile);
   
   return (<Grid container={true} spacing={24}>
     <Grid item={true} xs={12}>
@@ -29,7 +30,12 @@ const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload
       />
     </Grid>
     <Grid item={true} xs={12}>
-      <Button variant="contained" color="primary" onClick={handleButtonClick}>
+      <Button
+        disabled={!selectedFile}
+        variant="contained"
+        color="primary"
+        onClick={handleButtonClick}
+      >
         <Save />&nbsp;
         Upload
       </Button>

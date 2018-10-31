@@ -1,0 +1,1 @@
+export { GET_DOCUMENTS, getDocumentsAction } from './getDocumentsAction';

@@ -1,0 +1,1 @@
+export { documentsSelector } from './selectDocuments';

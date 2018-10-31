@@ -1,3 +1,5 @@
+import { IDocumentState, documentsReducerName } from '../domains/Documents';
+
 export interface IAppState {
-  [key: string]: any
+  [documentsReducerName]: IDocumentState;
 }

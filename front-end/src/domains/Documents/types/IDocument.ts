@@ -1,5 +1,6 @@
 export interface IDocument {
-  title: string;
+  link: string;
+  mime: string;
   slug: string;
-  mime: string
+  title: string;
 };

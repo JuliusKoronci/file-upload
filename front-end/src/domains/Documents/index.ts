@@ -1,0 +1,1 @@
+export { IDocument } from './types';

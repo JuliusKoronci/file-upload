@@ -1,6 +1,6 @@
 import { Card, CardContent, Grid } from '@material-ui/core';
 import * as React from 'react';
-import { UploadContainer } from '../../features';
+import { DocumentList, UploadForm } from '../../features';
 import { styles } from '../../styles';
 
 export const Home = () => (
@@ -13,10 +13,10 @@ export const Home = () => (
         <Card>
           <CardContent>
             <Grid item={true} xs={12}>
-              <UploadContainer />
+              <UploadForm />
             </Grid>
             <Grid item={true} xs={12}>
-              List of uploaded files
+              <DocumentList />
             </Grid>
           </CardContent>
         </Card>

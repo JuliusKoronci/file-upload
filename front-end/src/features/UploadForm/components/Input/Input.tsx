@@ -1,35 +1,35 @@
-import { Button, Grid, Input } from '@material-ui/core';
+import { Button, Grid, Input as MUIInput } from '@material-ui/core';
 import { Save } from '@material-ui/icons';
 import { SFC } from 'react';
 import * as React from 'react';
 import { withState } from 'recompose';
-import { styles } from '../../styles';
+import { styles } from '../../../../styles';
 
-export interface IUploadFormProps {
+export interface IInputProps {
   selectedFile: any;
   handleInputChange: any;
   handleUpload: any;
 }
 
 /**
- * Simple Upload form component
+ * Simple Upload Input field component
  *
  * @param {File} selectedFile - selected file from the input
  * @param {Function} handleInputChange - update state with selected file
  */
-const UploadForm: SFC<IUploadFormProps> = ({ selectedFile, handleInputChange, handleUpload }) => {
+const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload }) => {
   const handleChange = (event: any) => handleInputChange(event.target.files[0]);
   const handleButtonClick = () => handleUpload(selectedFile);
   
   return (<Grid container={true} spacing={24}>
-    <Grid item={true} xs={12} sm={10}>
-      <Input
+    <Grid item={true} xs={12}>
+      <MUIInput
         onChange={handleChange}
         style={styles.uploadForm} type="file"
       />
     </Grid>
-    <Grid item={true} xs={12} sm={2}>
-      <Button color="primary" onClick={handleButtonClick}>
+    <Grid item={true} xs={12}>
+      <Button variant="contained" color="primary" onClick={handleButtonClick}>
         <Save />&nbsp;
         Upload
       </Button>
@@ -37,4 +37,4 @@ const UploadForm: SFC<IUploadFormProps> = ({ selectedFile, handleInputChange, ha
   </Grid>);
 };
 
-export default withState('selectedFile', 'handleInputChange', null)(UploadForm);
+export default withState('selectedFile', 'handleInputChange', null)(Input);

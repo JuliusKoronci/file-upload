@@ -1,5 +1,6 @@
 import { SFC } from 'react';
 import * as React from 'react';
+import axios from 'axios';
 
 import {
   Avatar,
@@ -18,6 +19,7 @@ interface IDocumentItemProps {
 
 export const DocumentItem: SFC<IDocumentItemProps> = ({ item }) => {
   const downloadNewTab = () => window.open(item.link, '_blank');
+  const handleDelete = () => axios.delete(`delete/${item.slug}`);
   return (
     <ListItem>
       <ListItemAvatar>
@@ -33,7 +35,10 @@ export const DocumentItem: SFC<IDocumentItemProps> = ({ item }) => {
         <IconButton aria-label="Download" onClick={downloadNewTab}>
           <CloudDownload />
         </IconButton>
-        <IconButton aria-label="Delete">
+        <IconButton
+          aria-label="Delete"
+          onClick={handleDelete}
+        >
           <Delete />
         </IconButton>
       </ListItemSecondaryAction>

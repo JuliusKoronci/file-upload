@@ -2,6 +2,8 @@
 
 The application consists of the back end part and front end part.
 
+Assumptions: nodejs, yarn, docker available on the target machine. Ports free for services, possibility to edit the hosts file
+
 #### BACKEND
 BE is developed in symfony 4.1. The application is run via a docker container. To set up the application, docker needs to be installed on the machine.
 

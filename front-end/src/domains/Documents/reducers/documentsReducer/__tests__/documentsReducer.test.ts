@@ -1,6 +1,9 @@
+import { IDocument } from '../../../types';
 import {
+  addDocument,
+  deleteDocument,
   documentsReducer,
-  error,
+  error, IDocumentState,
   initialState,
   loading,
   success,
@@ -21,5 +24,14 @@ describe('documentsReducer', () => {
     const action = { payload: ['test'], type: '' } as any;
     expect(success(initialState, action).loading).toEqual(false);
     expect(success(initialState, action).items).toEqual(action.payload);
+  });
+  it('should add a document to state', () => {
+    const action = { payload: { test: 'test' } };
+    expect(addDocument(initialState, action).items).toEqual([action.payload]);
+  });
+  it('should delete a document by slug', () => {
+    const state = { ...initialState, items: [...initialState.items] };
+    state.items.push({ slug: 'test' } as IDocument);
+    expect(deleteDocument(state as IDocumentState, { payload: 'test' })).toEqual(initialState);
   });
 });

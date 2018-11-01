@@ -7,9 +7,9 @@ BE is developed in symfony 4.1. The application is run via a docker container. T
 
 - go to back-end folder
 - run docker-compose up
-- run docker ps - this gives you the list of containers
-- run exec {container id for php} composer install - this runs composer install on the docker machine
-- run exec {container id for php} php bin/console doctrine:schema:update --force - this creates the db structure
+- run run docker ps - this gives you the list of containers
+- run run exec {container id for php} composer install - this runs composer install on the docker machine
+- run run exec {container id for php} php bin/console doctrine:schema:update --force - this creates the db structure
 
 #### FRONTEND
 FE is developed in react via CRA

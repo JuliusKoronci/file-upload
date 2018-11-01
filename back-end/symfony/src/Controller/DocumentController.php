@@ -22,6 +22,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class DocumentController extends Controller
 {
     /**
+     * @var Filesystem
+     */
+    private $fileSystem;
+
+    public function __construct()
+    {
+        $this->fileSystem = new Filesystem();
+    }
+
+    /**
      * List all documents
      *
      * @Route("/documents", name="documents", methods={"GET"})
@@ -57,6 +67,11 @@ class DocumentController extends Controller
         $document->setTempName($postedFile->getFilename());
         $document->setUploadDir($targetDir);
 
+        /**
+         * In general it is not a good idea to keep uploaded files on the same server as the application
+         * It needs to be uploaded to a separate server dedicated to file keeping but for this purpose we will
+         * move it to a folder outside of the web dir
+         */
         $postedFile->move($this->getSystemPath() . DIRECTORY_SEPARATOR . $targetDir);
 
         $this->getDoctrine()->getManager()->persist($document);
@@ -86,11 +101,10 @@ class DocumentController extends Controller
             ], 404);
         }
 
-        $fileSystem = new Filesystem();
-        $fileSystem->remove([
+        $this->fileSystem->remove([
             $this->getSystemPath() . DIRECTORY_SEPARATOR . $document->getUploadDir() . DIRECTORY_SEPARATOR . $document->getTempName()
         ]);
-        $fileSystem->remove([$this->getSystemPath() . DIRECTORY_SEPARATOR . $document->getUploadDir()]);
+        $this->fileSystem->remove([$this->getSystemPath() . DIRECTORY_SEPARATOR . $document->getUploadDir()]);
 
         $this->getDoctrine()->getManager()->remove($document);
         $this->getDoctrine()->getManager()->flush();
@@ -157,8 +171,7 @@ class DocumentController extends Controller
         $targetDir = $this->getSystemPath() . DIRECTORY_SEPARATOR . $dirName;
 
         // @TODO handle exceptions
-        $fileSystem = new Filesystem();
-        $fileSystem->mkdir($targetDir);
+        $this->fileSystem->mkdir($targetDir, 0750);
 
         return $dirName;
     }
@@ -170,6 +183,10 @@ class DocumentController extends Controller
      */
     private function getSystemPath(): string
     {
-        return $this->get('kernel')->getProjectDir() . DIRECTORY_SEPARATOR . 'uploads';
+        $pathToUploads = $this->get('kernel')->getProjectDir() . DIRECTORY_SEPARATOR . 'uploads';
+        if (!$this->fileSystem->exists($pathToUploads)) {
+            $this->fileSystem->mkdir($pathToUploads, 0750);
+        }
+        return $pathToUploads;
     }
 }

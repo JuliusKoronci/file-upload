@@ -34,7 +34,7 @@ class DeleteController extends BaseController
         $document = $this->getDoctrine()->getRepository(Document::class)->findOneBy(['slug' => $slug]);
 
         $removed = DocumentService::removeDocument($document, $this->getSystemPath());
-        if (true) {
+        if (false === $removed) {
             return $this->json(['error' => 'Unable to delete file'], 400);
         }
 

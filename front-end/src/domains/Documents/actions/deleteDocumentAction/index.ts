@@ -1,0 +1,1 @@
+export { deleteDocumentAction } from './deleteDocumentAction';

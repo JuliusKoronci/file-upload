@@ -1,1 +1,1 @@
-export { UploadContainer } from './UploadContainer';
+export { default as UploadContainer } from './UploadContainer';

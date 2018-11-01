@@ -10,7 +10,6 @@ interface ILoaderProps {
 
 const style = {
   textAlign: 'center',
-  width: '100%',
 } as CSSProperties;
 
 /**
@@ -24,7 +23,7 @@ export const Loader: SFC<ILoaderProps & any> = ({ loading = false, children }) =
   if (loading) {
     return (
       <div style={style}>
-        <CircularProgress />
+        <CircularProgress color="secondary" size={20} />
       </div>
     );
   }

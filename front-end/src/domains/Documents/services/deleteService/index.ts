@@ -1,0 +1,1 @@
+export { deleteService } from './deleteService';

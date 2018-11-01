@@ -77,9 +77,7 @@ class DocumentController extends Controller
         $this->getDoctrine()->getManager()->persist($document);
         $this->getDoctrine()->getManager()->flush();
 
-        return $this->json([
-            'success' => true,
-        ]);
+        return new Response($this->get('jms_serializer')->serialize($document, 'json'));
     }
 
     /**

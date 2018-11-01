@@ -3,13 +3,14 @@ import { Save } from '@material-ui/icons';
 import { SFC } from 'react';
 import * as React from 'react';
 import { withState } from 'recompose';
+import { Loader } from '../../../../components/Loader';
 import { styles } from '../../../../styles';
-import { uploadService } from '../../../../domains/Documents';
 
 export interface IInputProps {
   selectedFile: any;
   handleInputChange: any;
   handleUpload: any;
+  loading: boolean;
 }
 
 /**
@@ -17,10 +18,11 @@ export interface IInputProps {
  *
  * @param {File} selectedFile - selected file from the input
  * @param {Function} handleInputChange - update state with selected file
+ * @param {Function} handleUpload - handles upload comming from container
  */
-const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload }) => {
+const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload, loading }) => {
   const handleChange = (event: any) => handleInputChange(event.target.files[0]);
-  const handleButtonClick = () => uploadService(selectedFile);
+  const handleButtonClick = () => handleUpload(selectedFile);
   
   return (<Grid container={true} spacing={24}>
     <Grid item={true} xs={12}>
@@ -36,7 +38,7 @@ const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload
         color="primary"
         onClick={handleButtonClick}
       >
-        <Save />&nbsp;
+        <Loader loading={loading}><Save /></Loader>&nbsp;
         Upload
       </Button>
     </Grid>

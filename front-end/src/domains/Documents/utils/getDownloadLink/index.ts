@@ -1,0 +1,1 @@
+export { getDownloadLink } from './getDownloadLink';

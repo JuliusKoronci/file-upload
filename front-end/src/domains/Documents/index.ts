@@ -1,12 +1,13 @@
 export { IDocument } from './types';
-export { documentsService, uploadService } from './services';
+export { documentsService, uploadService, deleteService } from './services';
+export { getDownloadLink } from './utils/getDownloadLink';
 export {
   documentsReducer,
   documentsReducerName,
   IDocumentState,
 }from './reducers';
 
-export { getDocumentsAction } from './actions/getDocumentsAction';
+export { getDocumentsAction, deleteDocumentAction, addDocumentAction } from './actions';
 export { documentsSelector } from './selectors';
 
 export { fetchDocumentsSaga } from './sagas/fetchDocuments';

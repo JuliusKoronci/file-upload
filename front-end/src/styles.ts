@@ -8,6 +8,9 @@ export const styles = {
     maxWidth: '1224px',
     minWidth: '768px',
   },
+  rightAlign: {
+    textAlign: 'right',
+  },
   uploadForm: {
     width: '100%',
   },

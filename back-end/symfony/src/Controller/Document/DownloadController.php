@@ -36,7 +36,7 @@ class DownloadController extends BaseController
         try {
             $response = DocumentService::createDocumentResponse($document, $this->getSystemPath());
         } catch (\Exception $exception) {
-            return $this->json(['error' => 'Unexpected error while retrieving file'], 400);
+            return new Response('Unexpected error while retrieving file', 400);
         }
         return $response;
     }

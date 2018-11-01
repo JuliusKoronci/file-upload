@@ -5,7 +5,7 @@ export interface IDocumentState {
   items: IDocument[],
   loading: boolean;
   loaded: boolean;
-  error: boolean;
+  error: boolean | string;
 }
 
 export const initialState: IDocumentState = {
@@ -32,19 +32,19 @@ export const loading = (state: IDocumentState) => ({
   loading: true,
 });
 /**
- * Mark error true in case of any API error
+ * Set error message if error
  */
-export const error = (state: IDocumentState) => ({
+export const error = (state: IDocumentState, { payload }: any) => ({
   ...state,
-  error: true,
+  error: payload,
   loading: false,
 });
 /**
  * Add documents on GET success
  */
-export const success = (state: IDocumentState, action: any) => ({
+export const success = (state: IDocumentState, { payload }: any) => ({
   ...state,
-  items: action.payload,
+  items: payload,
   loading: false,
 });
 /**

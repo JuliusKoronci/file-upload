@@ -41,7 +41,7 @@ const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload
         onClick={handleButtonClick}
       >
         <Loader loading={loading}><Save /></Loader>&nbsp;
-        Upload
+        Upload (max 15MB)
       </Button>
     </Grid>
   </Grid>);

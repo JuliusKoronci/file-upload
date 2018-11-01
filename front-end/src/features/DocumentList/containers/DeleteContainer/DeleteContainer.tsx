@@ -9,17 +9,23 @@ import {
   IDocument,
   deleteService,
   deleteDocumentAction,
+  errorAction,
 } from '../../../../domains/Documents';
 import { Loader } from '../../../../components';
 import { styles } from '../../../../styles';
 
 interface IDeleteContainerProps {
+  deleteDocument: typeof deleteDocumentAction;
+  error: typeof errorAction;
+  item: IDocument;
   loading: boolean;
   setLoading: any;
-  item: IDocument;
-  deleteDocument: typeof deleteDocumentAction;
 }
 
+/**
+ * Handle deletion for API
+ * @TODO move logic to sagas if time left
+ */
 export class DeleteContainer extends Component<IDeleteContainerProps> {
   public render(): ReactNode {
     return (
@@ -43,13 +49,15 @@ export class DeleteContainer extends Component<IDeleteContainerProps> {
       await this.props.setLoading(false);
       this.props.deleteDocument(this.props.item.slug);
     } catch (e) {
-      // @TODO just update the domain error for demo only
+      await this.props.setLoading(false);
+      this.props.error(e.response ? e.response.data.error : e.message);
     }
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   deleteDocument: deleteDocumentAction,
+  error: errorAction,
 }, dispatch);
 
 export default withState('loading', 'setLoading', false)(

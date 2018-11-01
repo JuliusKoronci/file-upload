@@ -7,6 +7,15 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class DocumentService
+ *
+ * Use to extract common document handling tasks
+ *
+ * @TODO refactor to use an autowired service which will inject the kernel service to get syspath
+ *
+ * @package App\Services
+ */
 final class DocumentService
 {
     /**
@@ -19,8 +28,11 @@ final class DocumentService
      */
     public static function handleUploadedFile(UploadedFile $file, string $sysPath): Document
     {
+        if ($file->getSize() > 15728640) {
+            throw new \Exception('Allowed max size 15MB exceeded');
+        }
+        // @TODO - ideally implement a whitelist for mime types, as task doesn't specify we accept any file
         $targetDir = self::getFilePath($sysPath);
-
         $document = new Document();
         $document->setName($file->getClientOriginalName());
         $document->setSize($file->getSize());

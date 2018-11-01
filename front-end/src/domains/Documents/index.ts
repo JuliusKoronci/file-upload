@@ -7,7 +7,12 @@ export {
   IDocumentState,
 }from './reducers';
 
-export { getDocumentsAction, deleteDocumentAction, addDocumentAction } from './actions';
+export {
+  addDocumentAction,
+  deleteDocumentAction,
+  errorAction,
+  getDocumentsAction,
+} from './actions';
 export { documentsSelector } from './selectors';
 
 export { fetchDocumentsSaga } from './sagas/fetchDocuments';

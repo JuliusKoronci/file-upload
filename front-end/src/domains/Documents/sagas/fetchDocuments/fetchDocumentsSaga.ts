@@ -13,7 +13,7 @@ export function* fetchDocuments(): SagaIterator {
     const documents: AxiosResponse<IDocument[]> = yield effects.call(documentsService);
     yield effects.put(createAction(DOCUMENT_ACTION_TYPES.SUCCESS)(documents.data));
   } catch (e) {
-    yield effects.put(createAction(DOCUMENT_ACTION_TYPES.ERROR)());
+    yield effects.put(createAction(DOCUMENT_ACTION_TYPES.ERROR)(e.message));
   }
 }
 

@@ -14,8 +14,8 @@ describe('documentsReducer', () => {
     expect(loading(initialState).loading).toEqual(true);
   });
   it('should set loading to false and error to true', () => {
-    expect(error(initialState).loading).toEqual(false);
-    expect(error(initialState).error).toEqual(true);
+    expect(error(initialState, { payload: 'error' }).loading).toEqual(false);
+    expect(error(initialState, { payload: 'error' }).error).toEqual('error');
   });
   it('should set loading to false and payload to items', () => {
     const action = { payload: ['test'], type: '' } as any;

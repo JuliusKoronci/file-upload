@@ -22,13 +22,38 @@ describe('fetchDocuments', () => {
       .toEqual(effects.call(documentsService));
   });
   it('should dispatch success with response', () => {
-    expect(generator.next({ data: [] }).value)
-      .toEqual(effects.put(createAction(DOCUMENT_ACTION_TYPES.SUCCESS)([])));
+    expect(generator.next({
+      data: [{
+        link: 'http://link',
+        name: 'test',
+        slug: 'test',
+        type: 'jpg',
+      }],
+    }).value)
+      .toEqual(effects.put(createAction(DOCUMENT_ACTION_TYPES.SUCCESS)([{
+        link: 'http://link',
+        name: 'test',
+        slug: 'test',
+        type: 'jpg',
+      }])));
+  });
+  it('should be finished', () => {
+    expect(generator.next().value)
+      .toEqual(undefined);
   });
   it('should dispatch error if thrown', () => {
     const errorGenerator = fetchDocuments() as any;
     errorGenerator.next();
     expect(errorGenerator.throw('error').value)
       .toEqual(effects.put(createAction(DOCUMENT_ACTION_TYPES.ERROR)()));
+  });
+  it('should dispatch error if thrown 2', () => {
+    const errorGenerator = fetchDocuments() as any;
+    errorGenerator.next();
+    errorGenerator.next();
+    expect(errorGenerator.throw('error').value)
+      .toEqual(effects.put(createAction(DOCUMENT_ACTION_TYPES.ERROR)()));
+    expect(errorGenerator.next().value)
+      .toEqual(undefined);
   });
 });

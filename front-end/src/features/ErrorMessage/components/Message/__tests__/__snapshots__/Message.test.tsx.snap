@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message should render snapshot 1`] = `
+<WithStyles(Chip)
+  color="secondary"
+  icon={<pure(ErrorIcon) />}
+  label="my awesome message"
+/>
+`;
+
+exports[`Message should render snapshot without a message 1`] = `""`;

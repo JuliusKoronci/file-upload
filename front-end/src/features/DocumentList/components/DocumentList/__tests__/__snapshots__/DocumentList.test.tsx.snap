@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocumentList should render snapshot 1`] = `
+<Component
+  loading={false}
+>
+  <WithStyles(List)>
+    <Component
+      item={
+        Object {
+          "link": "http://link",
+          "name": "test",
+          "slug": "test",
+          "type": "jpg",
+        }
+      }
+      key="test"
+    />
+  </WithStyles(List)>
+</Component>
+`;
+
+exports[`DocumentList should render snapshot with empty list 1`] = `
+<Component
+  loading={false}
+>
+  <WithStyles(List) />
+</Component>
+`;
+
+exports[`DocumentList should render snapshot with error 1`] = `
+<Component
+  loading={false}
+>
+  <WithStyles(List) />
+</Component>
+`;
+
+exports[`DocumentList should render snapshot with loading 1`] = `
+<Component
+  loading={true}
+>
+  <WithStyles(List) />
+</Component>
+`;

@@ -8,45 +8,45 @@ describe('DocumentList', () => {
   it('should render snapshot', () => {
     expect(toJson(shallow(<DocumentList
       documentState={{
-        loading: false,
-        loaded: true,
         error: false,
         items: [{
-          slug: 'test',
-          name: 'test',
           link: 'http://link',
+          name: 'test',
+          slug: 'test',
           type: 'jpg',
         }],
+        loaded: true,
+        loading: false,
       }}
     />))).toMatchSnapshot();
   });
   it('should render snapshot with empty list', () => {
     expect(toJson(shallow(<DocumentList
       documentState={{
-        loading: false,
-        loaded: true,
         error: false,
         items: [],
+        loaded: true,
+        loading: false,
       }}
     />))).toMatchSnapshot();
   });
   it('should render snapshot with loading', () => {
     expect(toJson(shallow(<DocumentList
       documentState={{
-        loading: true,
-        loaded: true,
         error: false,
         items: [],
+        loaded: true,
+        loading: true,
       }}
     />))).toMatchSnapshot();
   });
   it('should render snapshot with error', () => {
     expect(toJson(shallow(<DocumentList
       documentState={{
-        loading: false,
-        loaded: true,
         error: 'some error',
         items: [],
+        loaded: true,
+        loading: false,
       }}
     />))).toMatchSnapshot();
   });

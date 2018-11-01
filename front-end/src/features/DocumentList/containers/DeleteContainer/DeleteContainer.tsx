@@ -55,7 +55,7 @@ export class DeleteContainer extends Component<IDeleteContainerProps> {
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   deleteDocument: deleteDocumentAction,
   error: errorAction,
 }, dispatch);

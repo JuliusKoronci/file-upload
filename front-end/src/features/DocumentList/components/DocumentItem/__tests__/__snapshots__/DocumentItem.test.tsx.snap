@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocumentItem should render snapshot 1`] = `
+<WithStyles(ListItem)>
+  <WithStyles(ListItemAvatar)>
+    <WithStyles(Avatar)>
+      <pure(FolderIcon) />
+    </WithStyles(Avatar)>
+  </WithStyles(ListItemAvatar)>
+  <WithStyles(ListItemText)
+    primary="test"
+    secondary="jpg"
+  />
+  <WithStyles(ListItemSecondaryAction)>
+    <WithStyles(IconButton)
+      aria-label="Download"
+      onClick={[Function]}
+    >
+      <pure(CloudDownloadIcon) />
+    </WithStyles(IconButton)>
+    <withState(Connect(DeleteContainer))
+      item={
+        Object {
+          "link": "http://link",
+          "name": "test",
+          "slug": "test",
+          "type": "jpg",
+        }
+      }
+    />
+  </WithStyles(ListItemSecondaryAction)>
+</WithStyles(ListItem)>
+`;

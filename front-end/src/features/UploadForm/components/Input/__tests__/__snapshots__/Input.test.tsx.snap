@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message should render snapshot 1`] = `
+<Input
+  handleInputChange={[Function]}
+  handleUpload={[Function]}
+  loading={false}
+  selectedFile={null}
+/>
+`;

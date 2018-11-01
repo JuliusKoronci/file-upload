@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home should render snapshot 1`] = `
+<div
+  style={
+    Object {
+      "margin": "0 auto",
+      "maxWidth": "1224px",
+      "minWidth": "768px",
+    }
+  }
+>
+  <Connect(DocumentsProvider)>
+    <WithStyles(Grid)
+      container={true}
+      spacing={24}
+    >
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <h3>
+          FILE UPLOAD
+        </h3>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(Card)>
+          <WithStyles(CardContent)>
+            <WithStyles(Grid)
+              item={true}
+              style={
+                Object {
+                  "textAlign": "right",
+                }
+              }
+              xs={12}
+            >
+              <Connect(Component) />
+            </WithStyles(Grid)>
+            <WithStyles(Grid)
+              item={true}
+              xs={12}
+            >
+              <withState(Connect(UploadContainer)) />
+            </WithStyles(Grid)>
+            <WithStyles(Grid)
+              item={true}
+              xs={12}
+            >
+              <Connect(Component) />
+            </WithStyles(Grid)>
+          </WithStyles(CardContent)>
+        </WithStyles(Card)>
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+  </Connect(DocumentsProvider)>
+</div>
+`;

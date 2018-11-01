@@ -11,6 +11,7 @@ import {
   deleteDocumentAction,
 } from '../../../../domains/Documents';
 import { Loader } from '../../../../components';
+import { styles } from '../../../../styles';
 
 interface IDeleteContainerProps {
   loading: boolean;
@@ -25,6 +26,7 @@ export class DeleteContainer extends Component<IDeleteContainerProps> {
       <IconButton
         aria-label="Delete"
         onClick={this.handleDelete}
+        style={styles.deleteButton}
       >
         {/*@TODO better loading indicator*/}
         <Loader loading={this.props.loading}>

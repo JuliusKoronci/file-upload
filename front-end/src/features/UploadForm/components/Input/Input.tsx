@@ -22,11 +22,13 @@ export interface IInputProps {
  */
 const Input: SFC<IInputProps> = ({ selectedFile, handleInputChange, handleUpload, loading }) => {
   const handleChange = (event: any) => handleInputChange(event.target.files[0]);
-  const handleButtonClick = () => handleUpload(selectedFile);
+  const handleButtonClick = () => handleUpload(selectedFile, () => handleInputChange(null));
   
   return (<Grid container={true} spacing={24}>
     <Grid item={true} xs={12}>
       <MUIInput
+        // this will raise a console warning in develop but resetting a file input has some issues
+        {...(!selectedFile && { value: '' })}
         onChange={handleChange}
         style={styles.uploadForm} type="file"
       />

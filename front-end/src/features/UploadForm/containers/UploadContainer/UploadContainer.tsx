@@ -28,11 +28,12 @@ class UploadContainer extends Component<IUploadContainerProps> {
     />
   }
   
-  private handleUpload = async (file: File) => {
+  private handleUpload = async (file: File, callbalck: () => void) => {
     this.props.setLoading(true);
     const document: AxiosResponse<IDocument> = await uploadService(file);
     this.props.addDocument(document.data);
     this.props.setLoading(false);
+    callbalck();
   }
 }
 
